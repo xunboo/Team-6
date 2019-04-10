@@ -20,7 +20,7 @@ TBD
 | Joseph Chang    | Machine Learning, Algorithms, Systems  | Collaborative, Loves bouncing ideas off each other   | Teamwork and Good Code Quality  |  Time management     |
 | Aleksander Dash | Machine Learning, Front-End, Systems, Technical Writing | Good communicator | Responsible management of a Git repository | Over-thinks decisions, incredibly bothered by bugs |
 | Nolan Handali   |  AI/ML, Algorithms, backend   |  Collaborative, hard working, open minded                | Teamwork, prototyping              | Front end, UI/UX         |
-| Jeffrey Zhang   |                               |                  |                |            |
+| Jeffrey Zhang   |  AI/ML, Algorithms, backend   |  Collaborative, detail-oriented, driven| communication, documentation, code quality| Front-end, documentation|
 
 ## Team Communication
 * Internal communication via Facebook Messenger
