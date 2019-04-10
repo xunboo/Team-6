@@ -18,8 +18,8 @@ TBD
 | Member          | Skills                        | Personal Traits  | Desired Growth | Weaknesses |
 | --------------- | ----------------------------- | ---------------- | -------------- | ---------- |
 | Joseph Chang    | Machine Learning, Algorithms, Systems  | Collaborative, Loves bouncing ideas off each other   | Teamwork and Good Code Quality  |  Time management     |
-| Aleksander Dash | Machine Learning, Front-End, Systems, Technical Writing | Good communicator | Responsible management of a Git repository | Over-thinks decisions, incredibly bothered by bugs |
-| Nolan Handali   |                               |                  |                |            |
+| Aleksander Dash |                               |                  |                |            |
+| Nolan Handali   |  AI/ML, Algorithms, backend   |  Collaborative, hard working, open minded                | Teamwork, prototyping              | Front end, UI/UX         |
 | Jeffrey Zhang   |                               |                  |                |            |
 
 ## Team Communication
