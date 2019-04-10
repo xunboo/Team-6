@@ -17,7 +17,7 @@ TBD
 ## Team Skills
 | Member          | Skills                        | Personal Traits  | Desired Growth | Weaknesses |
 | --------------- | ----------------------------- | ---------------- | -------------- | ---------- |
-| Joseph Chang    |                               |                  |                |            |
+| Joseph Chang    | Machine Learning, Algorithms, Systems  | Collaborative, Loves bouncing ideas off each other   | Teamwork and Good Code Quality  |   Doesn't like Nolan         |
 | Aleksander Dash |                               |                  |                |            |
 | Nolan Handali   |                               |                  |                |            |
 | Jeffrey Zhang   |                               |                  |                |            |
