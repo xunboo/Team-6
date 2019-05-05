@@ -10,6 +10,7 @@ BATCH_SIZE = 16
 class BaselineModel():
     def __init__(self):
         self.global_step = tf.contrib.framework.get_or_create_global_step()
+        self.LR = 0.0005
         self.build_graph()
         self.sess = tf.Session()
         self.sess.run(tf.global_variables_initializer())
@@ -35,6 +36,13 @@ class BaselineModel():
             x = self._relu(x, name='relu_2')
         return x
 
+    def batch_norm_conv(input, num_outputs, kernel_size, activation_fn):
+        e1 = layers.conv2d(inputs=x_float, num_outputs=64, kernel_size=5, activation_fn=None, padding='same', stride=2)
+        e1 = layers.batch_norm(e1)
+        if activation_fn:
+            e1 = activation_fn(e1)
+        return e1
+
     def build_graph(self):
         self.x = tf.placeholder(tf.float32, shape=[None,32,32,1])
         self.y = tf.placeholder(tf.float32, shape=[None,32,32,3])
@@ -44,17 +52,34 @@ class BaselineModel():
         #y_float = tf.cast(self.y, tf.float32)
 
         with tf.name_scope("conv"):
-            e1 = layers.conv2d(inputs=x_float, num_outputs=64, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
-            e2 = layers.conv2d(inputs=e1, num_outputs=128, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
-            e3 = layers.conv2d(inputs=e2, num_outputs=256, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
-            e4 = layers.conv2d(inputs=e3, num_outputs=512, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
-            e5 = layers.conv2d(inputs=e4, num_outputs=512, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            e1 = layers.conv2d(inputs=x_float, num_outputs=64, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            e1 = layers.batch_norm(e1)
 
-            g1 = layers.conv2d_transpose(inputs=e5, num_outputs=256, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
-            g2 = layers.conv2d_transpose(inputs=g1, num_outputs=128, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
-            g3 = layers.conv2d_transpose(inputs=g2, num_outputs=64, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
-            g4 = layers.conv2d_transpose(inputs=g3, num_outputs=32, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
-            g5 = layers.conv2d_transpose(inputs=g4, num_outputs=3, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            e2 = layers.conv2d(inputs=e1, num_outputs=128, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            e2 = layers.batch_norm(e2)
+
+            e3 = layers.conv2d(inputs=e2, num_outputs=256, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            layers.batch_norm(e3)
+
+            e4 = layers.conv2d(inputs=e3, num_outputs=512, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            e4 = layers.batch_norm(e4)
+
+            e5 = layers.conv2d(inputs=e4, num_outputs=512, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            e5 = layers.batch_norm(e5)
+
+            g1 = layers.conv2d_transpose(inputs=e5, num_outputs=256, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            g1 = layers.batch_norm(g1)
+
+            g2 = layers.conv2d_transpose(inputs=g1, num_outputs=128, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            g2 = layers.batch_norm(g2)
+
+            g3 = layers.conv2d_transpose(inputs=g2, num_outputs=64, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            g3 = layers.batch_norm(g3)
+
+            g4 = layers.conv2d_transpose(inputs=g3, num_outputs=32, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
+            g4 = layers.batch_norm(g4)
+
+            g5 = layers.conv2d_transpose(inputs=g4, num_outputs=3, kernel_size=5, activation_fn=tf.nn.leaky_relu, padding='same', stride=2)
 
             '''
             h4 = layers.conv2d(inputs=h3, num_outputs=100, kernel_size=3, activation_fn=tf.nn.relu, padding='same')
@@ -68,8 +93,8 @@ class BaselineModel():
             self.train_step = layers.optimize_loss(
                                 self.loss,
                                 global_step=self.global_step,
-                                learning_rate=0.0001,
-                                optimizer=tf.train.MomentumOptimizer(0.00001,0.9))
+                                learning_rate=self.LR,
+                                optimizer=tf.train.MomentumOptimizer(self.LR,0.9))
 
     def train(self):
         data = load_cifar()
@@ -91,13 +116,14 @@ class BaselineModel():
             print('ep:\t', ep, '\tloss:\t', loss_sum)
 
             # inference
-            input_feed = {}
-            bw_data = np.stack([np.expand_dims(convert_bw(data[i]), 3) for i in range(10)])
-            input_feed[self.x] = bw_data
-            input_feed[self.y] = data[range(10)]
-            images = self.sess.run([self.output], input_feed)[0]
-            for i in range(10):
-                save_arr(images[i], 'outputs/output_' + str(ep) + '_' + str(i) + '.png')
+            if ep % 10 == 0:
+                input_feed = {}
+                bw_data = np.stack([np.expand_dims(convert_bw(data[i]), 3) for i in range(10)])
+                input_feed[self.x] = bw_data
+                input_feed[self.y] = data[range(10)]
+                images = self.sess.run([self.output], input_feed)[0]
+                for i in range(10):
+                    save_arr(images[i], 'outputs/output_' + str(ep) + '_' + str(i) + '.png')
 
 if __name__ == '__main__':
     model = BaselineModel()
