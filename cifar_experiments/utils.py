@@ -8,7 +8,8 @@ def convert_bw(arr):
     return grey_arr
 
 def save_arr(arr, filename, mode='RGB'):
-    image = Image.fromarray(arr, mode)
+    arr_int = arr.astype(np.uint8)
+    image = Image.fromarray(arr_int, mode)
     image.save(filename)
 
 def load_cifar():

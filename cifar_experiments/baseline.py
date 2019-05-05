@@ -44,15 +44,24 @@ class BaselineModel():
         #y_float = tf.cast(self.y, tf.float32)
 
         with tf.name_scope("conv"):
-            h1 = layers.conv2d(inputs=x_float, num_outputs=20, kernel_size=3, activation_fn=tf.nn.relu, padding='same')
-            h2 = layers.conv2d(inputs=h1, num_outputs=10, kernel_size=3, activation_fn=tf.nn.relu, padding='same')
-            h3 = layers.conv2d(inputs=h2, num_outputs=5, kernel_size=3, activation_fn=tf.nn.relu, padding='same')
+            e1 = layers.conv2d(inputs=x_float, num_outputs=64, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            e2 = layers.conv2d(inputs=e1, num_outputs=128, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            e3 = layers.conv2d(inputs=e2, num_outputs=256, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            e4 = layers.conv2d(inputs=e3, num_outputs=512, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            e5 = layers.conv2d(inputs=e4, num_outputs=512, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+
+            g1 = layers.conv2d_transpose(inputs=e5, num_outputs=256, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            g2 = layers.conv2d_transpose(inputs=g1, num_outputs=128, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            g3 = layers.conv2d_transpose(inputs=g2, num_outputs=64, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            g4 = layers.conv2d_transpose(inputs=g3, num_outputs=32, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+            g5 = layers.conv2d_transpose(inputs=g4, num_outputs=3, kernel_size=3, activation_fn=tf.nn.relu, padding='same', stride=2)
+
             '''
             h4 = layers.conv2d(inputs=h3, num_outputs=100, kernel_size=3, activation_fn=tf.nn.relu, padding='same')
             h5 = layers.conv2d(inputs=h4, num_outputs=60, kernel_size=3, activation_fn=tf.nn.relu, padding='same')
             h6 = layers.conv2d(inputs=h5, num_outputs=20, kernel_size=3, activation_fn=tf.nn.relu, padding='same')
             '''
-            self.output = layers.conv2d(inputs=h3, num_outputs=3, kernel_size=3, activation_fn=None, padding='same')
+            self.output = layers.conv2d(inputs=g5, num_outputs=3, kernel_size=3, activation_fn=None, padding='same')
             self.output_image = tf.cast(self.output, tf.int32)
 
             self.loss = tf.nn.l2_loss(self.output - y_float)  / tf.cast(tf.size(self.output), tf.float32)
@@ -71,13 +80,12 @@ class BaselineModel():
             loss_sum = 0
             for i in range(100):
                 input_feed = {}
-                #batch_data = data[random.sample(range(data.shape[0]), BATCH_SIZE)]
-                batch_data = data[range(BATCH_SIZE)]
+                batch_data = data[random.sample(range(data.shape[0]), BATCH_SIZE)]
+                #batch_data = data[range(BATCH_SIZE)]
                 bw_data = np.stack([np.expand_dims(convert_bw(batch_data[i]), 3) for i in range(BATCH_SIZE)])
 
                 input_feed[self.x] = bw_data
                 input_feed[self.y] = batch_data
-
                 loss, _ = self.sess.run([self.loss, self.train_step], input_feed)
                 loss_sum += loss
             print('ep:\t', ep, '\tloss:\t', loss_sum)
