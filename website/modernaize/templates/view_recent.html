@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Moderniaize!</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    </head>
+    <body>
+        {% for image in recent_images %} 
+            <div class="col-md-4"> 
+                    <p>Image uploaded: {{ image.uploaded_at }}</p>
+                    <p>Resolution: ({{ image.image_width }}x{{ image.image_height }})</p>
+                    <img src="{{ image.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
+            </div> 
+        {% endfor %}
+    </body>
+</html>
