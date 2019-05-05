@@ -1,4 +1,4 @@
-# DASH.ai
+# Clarif.ai
 
 <img src="img/logo.jpg">
 
