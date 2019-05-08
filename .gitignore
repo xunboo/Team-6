@@ -123,4 +123,7 @@ dmypy.json
 .pyre/
 
 ### CUSTOM IGNORES
+# OSX Thumbnail files
+.DS_Store
+
 website/uploaded_images/
