@@ -1,0 +1,18 @@
+# Usage: Install with "conda env create -f environment.yml"
+#        Update with  "conda env update -f environment.yml"
+#        Remove with  "conda env remove --name cs194"
+#
+#        Activate the environment with "conda activate cs194"
+#        Deactivate with "conda deactivate"
+name: cs194
+channels:
+  - defaults
+dependencies:
+  - python=3.7
+  - numpy
+  - django
+  - sqlite
+  - sqlparse
+  - keras
+  - pyyaml
+  - pillow
