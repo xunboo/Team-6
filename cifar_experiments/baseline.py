@@ -5,7 +5,7 @@ import pdb
 import os
 
 layers = tf.contrib.layers
-BATCH_SIZE = 16
+BATCH_SIZE = 8
 
 class BaselineModel():
     def __init__(self):
@@ -103,10 +103,11 @@ class BaselineModel():
             os.mkdir(output_dir)
         for ep in range(1000):
             loss_sum = 0
-            for i in range(100):
+            for i in range(50):
                 input_feed = {}
-                batch_data = data[random.sample(range(data.shape[0]), BATCH_SIZE)]
-                #batch_data = data[range(BATCH_SIZE)]
+                #batch_data = data[random.sample(range(data.shape[0]), BATCH_SIZE)]
+                batch_data = data[random.sample(range(BATCH_SIZE), BATCH_SIZE)]
+                #batch_data = data[range(1000)]
                 bw_data = np.stack([np.expand_dims(convert_bw(batch_data[i]), 3) for i in range(BATCH_SIZE)])
 
                 input_feed[self.x] = bw_data
@@ -116,7 +117,7 @@ class BaselineModel():
             print('ep:\t', ep, '\tloss:\t', loss_sum)
 
             # inference
-            if ep % 10 == 0:
+            if ep % 50 == 0:
                 input_feed = {}
                 bw_data = np.stack([np.expand_dims(convert_bw(data[i]), 3) for i in range(10)])
                 input_feed[self.x] = bw_data
