@@ -1,6 +1,6 @@
 # magnifAI
 
-<img src="img/magnifyinglgass.jpg">
+<img src="img/magnifyglass.jpg">
 
 ## Project Synopsis
 Our project aims to take low quality and black and white images, and turn them into colorful high resolution images through the power of modern computer vision! With the power of GANs and deep neural networks, our web app will both colorize and upscale any image it is passed. 
