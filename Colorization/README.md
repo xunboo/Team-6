@@ -13,4 +13,4 @@ Here is an example of running `colorize.py`:
 
 ## Acknowledgements
 
-We would like to thank Richard Zhang and his project [Colorful Image Colorization](http://richzhang.github.io/colorization/) as well as Foam Liu for giving us background information, training data, as well as many parts of training pipeline that helped us on this project.
+We would like to thank Richard Zhang and his project [Colorful Image Colorization](http://richzhang.github.io/colorization/) as well as [Foam Liu](https://github.com/foamliu/Colorful-Image-Colorization) for giving us background information, training data, architecture suggestions, as well as many parts of training pipeline that helped us on this project.
