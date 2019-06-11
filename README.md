@@ -1,4 +1,4 @@
-# Clarif.ai
+# magnifAI
 
 <img src="img/logo.jpg">
 
