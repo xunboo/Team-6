@@ -6,12 +6,12 @@ from keras.regularizers import l2
 from keras.utils import multi_gpu_model
 from keras.utils import plot_model
 
-from config import img_rows, img_cols, num_classes, kernel
+from config import num_classes, kernel
 
 l2_reg = l2(1e-3)
 
 
-def build_model():
+def build_model(img_rows, img_cols):
     input_tensor = Input(shape=(img_rows, img_cols, 1))
     x = Conv2D(64, (kernel, kernel), activation='relu', padding='same', name='conv1_1', kernel_initializer="he_normal",
                kernel_regularizer=l2_reg)(input_tensor)
