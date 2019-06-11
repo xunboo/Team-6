@@ -1,0 +1,19 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "inputImage",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "uploads/{name}",
+      "connection": "magnifaistorage_STORAGE"
+    },
+    {
+      "name": "upscaledImage",
+      "type": "blob",
+      "direction": "out",
+      "path": "upscaled/{name}",
+      "connection": "magnifaistorage_STORAGE"
+    }
+  ]
+}
