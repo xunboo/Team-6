@@ -1,4 +1,4 @@
-# magnifAI
+# MagnifAI
 
 <img src="img/magnifyglass.jpg">
 
