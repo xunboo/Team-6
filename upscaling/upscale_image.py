@@ -4,12 +4,10 @@ from PIL import Image
 import sys
 
 ''' 
-	Expects local or direct path to image to upscale
+	Expects pillow images
 	returns a Pillow Image object
 '''
-def upscale_image(img_path):
-
-    img = Image.open(img_path)
+def upscale_image(img):
     img = img.convert('RGB')
     lr_img = np.array(img)
     assert(lr_img.shape[2] == 3)
@@ -26,5 +24,6 @@ if __name__ == '__main__':
     else:
         img_path = sys.argv[1]
         print("Upscaling image ", img_path)
-        img = upscale_image(img_path)
+        img = Image.open(img_path)
+        img = upscale_image(img)
         img.save(img_path[:-4] + "_sr.png")
