@@ -1,0 +1,27 @@
+{% extends "modernaize/base.html" %}
+
+{% block title %}Magnif.ai - Upload{% endblock %}
+
+{% block content %}
+<div style="padding: 3rem 1.5rem; text-align: center;">
+  <h1>Upload Image</h1>
+  {% if user.is_authenticated %}
+    <p><i>Your image will be tied to your account so you can find it later!</i></p>
+  {% else %}
+    <i><p>Note: You are not logged in!
+      <br/>
+      If you log in, all your uploaded images will be stored in your profile.
+      <br/>
+      Make sure you save the link you are redirected to after uploading,
+      <br/>
+      as it will be the only way to access this image.</p></i>
+  {% endif %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  <!-- <p><a href="{% url 'modernaize:index' %}">Return to home</a></p> -->
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "modernaize/base.html" %}
+{% load static %}
+
+{% block title %}Magnif.ai - Image processing{% endblock %}
+
+{% block content %}
+
+  <div style="padding: 3rem 1.5rem; text-align: center;">
+    <h1>Magnif.ai Image Processing</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Original image:</h3>
+        <img src="{{ orig_img_url }}" class="img-responsive" style="width: 300px; height: 300px; object-fit: contain;" />
+      </div>
+      <div class="col-md-6">
+        <h3>Enhanced image:</h3>
+        {% if upscaled_img_url %}
+            <img src="{{ upscaled_img_url }}" class="img-responsive" style="width: 300px; height: 300px; object-fit: contain;" />
+        {% else %}
+            <img src="{% static 'modernaize/bakercat.gif' %}" class="img-responsive" style="width: 300px; height: 300px; object-fit: contain;" />
+            <br/>
+            <p><i>We are still working on your image!<br/>Please check back in a few minutes.</i></p>
+        {% endif %}
+        
+      </div>
+    </div>
+    <br/>
+    <p>Want to share this image with friends? <a href="{% url 'modernaize:share' share_name %}">Get shareable link</a></p>
+  </div>
+
+{% endblock %}
