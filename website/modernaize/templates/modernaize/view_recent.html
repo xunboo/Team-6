@@ -1,0 +1,30 @@
+{% extends "modernaize/base.html" %}
+
+{% block title %}Magnif.ai - Upload{% endblock %}
+
+{% block content %}
+
+  <div style="padding: 3rem 1.5rem; text-align: center;">
+
+    {% if recent_images %}
+      <div class="well text-center">
+        <div class="col-md-12" style="padding-bottom: 2rem;"><h3>Here are the three most recently uploaded images:</h3></div>
+        <div class="row">
+          {% for image in recent_images %} 
+            <div class="col-md-4"> 
+              <!-- <img src="{{ image.image.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> -->
+              <img src="{{ image.image.url }}" class="img-responsive" style="width: 300px; height: 300px; object-fit: contain;" />
+              <p>Image uploaded: {{ image.uploaded_at }} <br />
+              Resolution: ({{ image.image_width }}x{{ image.image_height }})</p>
+              <h4><a href="{% url 'modernaize:upscale' image.id %}">Upscale this image!</a></h4>
+            </div> 
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <p>There are no images. Perhaps you want to <a href="{% url 'modernaize:upload' %}">upload</a> one?</p>
+    {% endif %}
+
+  </div>
+
+{% endblock %}

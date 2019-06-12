@@ -1,0 +1,12 @@
+{% extends "modernaize/base.html" %}
+
+{% block title %}Magnif.ai - Register{% endblock %}
+
+{% block content %}
+  <h2>Register a new account</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+  </form>
+{% endblock %}
