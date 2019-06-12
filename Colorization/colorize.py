@@ -13,22 +13,16 @@ from config import img_rows, img_cols
 from config import nb_neighbors, T, epsilon
 from model import build_model
 
-if __name__ == '__main__':
-    # Read in and parse args, making sure they make sense
-    if len(sys.argv) < 2:
-        print('python colorize.py [filename]')
-        sys.exit()
-    filename = sys.argv[1]
-    if not os.path.isfile(filename):
-        print('Invalid filename:', filename)
-        sys.exit()
+from PIL import Image
 
-    OUTPUT_IMAGE = 'out'
-    #channel = 3
-
-    bgr = cv.imread(filename)
-    gray = cv.imread(filename, 0)
-    img_rows, img_cols = gray.shape
+'''
+takes PIL image
+returns PIL image
+'''
+def colorize_image(image):
+    bgr = np.array(image)
+    gray = np.squeeze(np.rint(bgr.dot(np.asarray([[0.2989], [0.5870], [0.1140]]))))
+    img_rows, img_cols = gray.shape[:2]
 
     # need to make multiple of 4
     img_rows = img_rows - (img_rows % 4)
@@ -87,9 +81,23 @@ if __name__ == '__main__':
     out_a = out_lab[:, :, 1]
     out_b = out_lab[:, :, 2]
     out_lab = out_lab.astype(np.uint8)
-    out_bgr = cv.cvtColor(out_lab, cv.COLOR_LAB2BGR)
+    out_bgr = cv.cvtColor(out_lab, cv.COLOR_LAB2RGB)
     out_bgr = out_bgr.astype(np.uint8)
-
-    cv.imwrite(OUTPUT_IMAGE + '.png', out_bgr)
-    cv.imwrite(OUTPUT_IMAGE + '_gray.png', gray)
+    #cv.imwrite('out1.jpeg', out_bgr)
     K.clear_session()
+    #return Image.fromarray(out_lab, 'LAB')
+    return Image.fromarray(out_bgr, 'RGB')
+
+if __name__ == '__main__':
+    # Read in and parse args, making sure they make sense
+    if len(sys.argv) < 2:
+        print('Usage: python colorize.py [filename]')
+        sys.exit()
+    filename = sys.argv[1]
+    if not os.path.isfile(filename):
+        print('Invalid filename:', filename)
+        sys.exit()
+
+    image = Image.open(filename)
+    colorized_image = colorize_image(image)
+    colorized_image.save("out.png", "PNG")
