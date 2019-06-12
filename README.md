@@ -5,6 +5,9 @@
 ## Project Synopsis
 Our project aims to take low quality and black and white images, and turn them into colorful high resolution images through the power of modern computer vision! With the power of GANs and deep neural networks, our web app will both colorize and upscale any image it is passed. 
 
+## Technical Details
+For specific details, please refer to the wiki!
+
 ## Team Members
 | Member             | Photo                                                                 |
 | ------------------ | --------------------------------------------------------------------- |
