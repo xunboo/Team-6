@@ -1,0 +1,19 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "inputImage",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "uploads-colorize/{name}",
+      "connection": "magnifaistorage_STORAGE"
+    },
+    {
+      "name": "upscaledColorizedImage",
+      "type": "blob",
+      "direction": "out",
+      "path": "upscaled-colorized/{name}",
+      "connection": "magnifaistorage_STORAGE"
+    }
+  ]
+}

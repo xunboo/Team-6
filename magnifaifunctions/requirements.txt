@@ -5,3 +5,9 @@ grpcio-tools==1.14.1
 protobuf==3.6.1
 six==1.11.0
 Pillow
+numpy
+tensorflow
+pyyaml
+keras
+opencv-python
+sklearn
